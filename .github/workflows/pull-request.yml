@@ -2,7 +2,9 @@
 name: ⚙️ Pull Request
 
 on: # yamllint disable-line rule:truthy
-  pull_request: null
+  pull_request:
+    branches:
+      - main
 
 permissions: {}
 
@@ -13,8 +15,7 @@ jobs:
     permissions:
       contents: read
       packages: read
-      # To report GitHub Actions status checks
-      statuses: write
+      statuses: write # To report GitHub Actions status checks
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
