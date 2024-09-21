@@ -3,12 +3,17 @@
 Here I define and share all the GH workflows I use across al my personal repositories.
 
 - [Why?](#why)
+- [How to use?](#how-to-use)
 - [Inspired](#inspired)
 
 ## Why?
 
 1. **DRY:** [Don't repeat your self!](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) I am tired of defining the same workflows over and over again in different repositories.
 2. **Standardization**: I want all my repositories to use the same CI/CD pipelines. I achieve that by calling the workflows located in here as `use: cangulo-actions/github-workflows-templates/.github/workflows/<workflow>.yml@main` in the consumer repository GH workflows.
+
+## How to use?
+
+Copy the templates you want to use in your repository `.github/workflows` folder.
 
 ## Inspired
 
