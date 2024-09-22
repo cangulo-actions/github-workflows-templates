@@ -1,15 +1,27 @@
 ---
 name: 🏷️ Pull Request Labeler
+
 on:
-  pull_request:
-    branches:
-      - "main"
+  workflow_call:
+    inputs:
+      configuration-path:
+        description: |
+          Path to the labeler configuration file.
+          Use it only if you have custom labels.
+          Proposal for file: .github/labeler.yml
+        type: string
+        required: false
+      configuration-template:
+        description: |
+          cangulo-actions/github-workflows-templates repository offers you the next templates
+          for labeling PRs.
 
-concurrency:
-  group: label-pr-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+          Available options: 
+          - `github-action` : https://github.com/cangulo-actions/github-workflows-templates/blob/main/configs/labeler/github-action.yml
+        type: string
+        required: false
 
-permissions: read-all
+permissions: {}
 
 jobs:
   labeler:
@@ -19,7 +31,42 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+      - name: 🔧 Build Config Path
+        id: config
+        run: |
+          # at least one input must be provided
+          if [ -z "${{ inputs.configuration-path }}" ] && [ -z "${{ inputs.configuration-template }}" ]; then
+            echo "::error title=No configuration provided::Please provide a configuration-path or configuration-template input."
+          fi
+
+          if [ -z "${{ inputs.configuration-template }}" ]; then
+            config_path="${{ inputs.configuration-path }}"
+          else
+            config_path="configs/labeler/${{ inputs.configuration-template }}.yml"
+          fi
+
+          echo "config_path=$config_path"
+          echo "config_path=$config_path" >> $GITHUB_OUTPUT
+
+      - name: 📥️ get configuration template
+        uses: actions/checkout@v4
+        if: ${{ inputs.configuration-template != '' }}
+        with:
+          repository: cangulo-actions/github-workflows-templates
+          ref: main
+          sparse-checkout: |
+            ${{ steps.config.outputs.config_path }}
+
+      - name: 🖨️ Print configuration
+        run: |
+          echo "link to the configuration file:"
+          echo "https://github.com/cangulo-actions/github-workflows-templates/blob/main/${{ steps.config.outputs.config_path }}"
+
+          echo "configuration content:"
+          cat ${{ steps.config.outputs.config_path }}
+
+
       - name: 📝 labeling
         uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9 # v5.0.0
         with:
-          configuration-path: .github/labeler.yml
+          configuration-path: ${{ steps.config.outputs.config_path }}

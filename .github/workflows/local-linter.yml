@@ -1,5 +1,6 @@
 ---
 name: 🔎 Lint
+# Copied: https://github.com/cangulo-actions/github-workflows-templates/blob/main/templates/linter.yml
 
 on:
   pull_request:
@@ -19,6 +20,8 @@ jobs:
     permissions:
       contents: read
       packages: read
-      # To report GitHub Actions status checks
       statuses: write
-    use: cangulo-actions/github-workflows-templates/.github/workflows/linter.yml@main
+    uses: cangulo-actions/github-workflows-templates/.github/workflows/linter.yml@main
+    with:
+      pr-number: ${{ github.event.pull_request.number }}
+    secrets: inherit

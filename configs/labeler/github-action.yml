@@ -1,0 +1,33 @@
+gh-workflows:
+  - changed-files:
+      - any-glob-to-any-file: .github/workflows/**
+
+configs:
+  - changed-files:
+      - any-glob-to-any-file: .github/*.yml
+
+functions:
+  - changed-files:
+      - any-glob-to-any-file: functions/**
+
+cypress:
+  - changed-files:
+      - any-glob-to-any-file: cypress/**
+
+unit-tests:
+  - changed-files:
+      - any-glob-to-any-file: tests/**
+
+scripts:
+  - changed-files:
+      - any-glob-to-any-file: scripts/**
+
+action:
+  - changed-files:
+      - any-glob-to-any-file: action.yml
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - README.md
+          - docs/**
