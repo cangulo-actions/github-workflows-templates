@@ -1,14 +1,20 @@
 ---
 name: 🔎 Lint
 
-on: # yamllint disable-line rule:truthy
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
+on:
+  workflow_call:
+    inputs:
+      pr-number:
+        description: Pull request number for the concurrency group
+        type: string
+        required: true
+      github-token:
+        description: GitHub token to report super-linter/super-linter GH action status checks
+        type: string
+        required: true
 
 concurrency:
-  group: lint-${{ github.event.pull_request.number }}
+  group: lint-PR-${{ inputs.pr-number }}
   cancel-in-progress: true
 
 permissions: {}
@@ -40,4 +46,4 @@ jobs:
         uses: super-linter/super-linter@v7.1.0 # x-release-please-version
         env:
           # To report GitHub Actions status checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ inputs.github-token }}
