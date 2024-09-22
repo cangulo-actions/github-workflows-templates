@@ -13,7 +13,7 @@ concurrency:
 permissions: {}
 
 jobs:
-  semver:
+  release:
     name: 🚀 release new version
     runs-on: ubuntu-latest
     steps:
@@ -30,25 +30,3 @@ jobs:
           print-summary: true
           print-annotations: true
           github-token: ${{ secrets.CANGULO_BOT_PUSH_COMMITS }} # required for creating the GH release
-
-  lint:
-    name: 🔎 Lint
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
-      statuses: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
-
-      - name: Super-linter
-        uses: super-linter/super-linter@v7.1.0 # x-release-please-version
-        env:
-          # To report GitHub Actions status checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
