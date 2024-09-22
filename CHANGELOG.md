@@ -1,3 +1,8 @@
+# 0.0.2 fix: add labeler and lint GH workflow (#4)
+
+## patches:
+* fix: add labeler and lint GH workflow (#4)
+
 # 0.0.1 fix: added initial GH workflows for PR and release
 
 ## patches:
